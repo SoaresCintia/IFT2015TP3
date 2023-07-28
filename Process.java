@@ -2,6 +2,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.TreeSet;
+
+
+
+
 
 public class Process {
     private String readFile;
@@ -65,7 +70,20 @@ public class Process {
             if(line[0].equals("---") ){
                 break;
             }
-            
+            Graph.Vertex startVertex = this.graph.new Vertex(line[2],new TreeSet<Graph.Edge>());
+            Graph.Vertex endVertex = this.graph.new Vertex(line[3], null);
+            int indexStart = this.graph.getVertexsEdges().indexOf(startVertex); // getting the vertex from the list of vertexs contained in the class graph
+            int indexEnd = this.graph.getVertexsEdges().indexOf(endVertex); // getting the vertex from the list
+            if(indexStart >= 0 && indexEnd >= 0){ // checking if the vertex was in the list or not.
+                Graph.Vertex firstVertex = this.graph.getVertexsEdges().get(indexStart); 
+                Graph.Vertex lastVertex = this.graph.getVertexsEdges().get(indexEnd);            
+                firstVertex.addEdge(line[0],firstVertex,lastVertex, Integer.parseInt(line[4])); // adding the edge of the given vertex
+            }
+            else{ // if not we add it in the list of vertexs 
+                this.graph.addVertex(line[2]);
+            }
+                
+                     
             // EdgeOld edge = new EdgeOld(line[0], line[2], line[3], Integer.parseInt(line[4]));
             String name = line[0];
             String firstV = line[2];
