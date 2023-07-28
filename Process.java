@@ -7,12 +7,13 @@ public class Process {
     private String readFile;
     private String writeFile;
     // private Graph graph = new Graph();
-    private TreeMap<String, Vertex> graph = new TreeMap<>();
-
+    // private TreeMap<String, Vertex> graph = new TreeMap<>();
+    private TreeMap<String, TreeMap<String, Edge>> graph;
 
     public Process (String [] args){
         this.readFile = args[0];
         this.writeFile = args[1];
+        this.graph = new TreeMap<>();
     }
 
     public void compute() {
@@ -30,7 +31,7 @@ public class Process {
             if(line[0].equals("---") ){
                 break;
             }
-            this.graph.put(line[0],null);
+            this.graph.put(line[0],new TreeMap<>());
             System.out.println(graph);
         }
 
@@ -42,10 +43,13 @@ public class Process {
             }
             
             Edge edge = new Edge(line[0], line[2], line[3], Integer.parseInt(line[4]));
-            TreeMap<String, Edge> edges; 
-            Vertex vertex = this.graph.get(edge.getStart());
-            // vertex.add(edge);
-            System.out.println(graph);
+
+            // first vertex
+            this.graph.get(edge.getStart()).put(edge.getEnd(), edge);
+
+            // second vertex
+            this.graph.get(edge.getEnd()).put(edge.getStart(), edge);
+            // System.out.println(graph);
 
         }
 

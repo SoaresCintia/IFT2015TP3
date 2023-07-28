@@ -26,4 +26,8 @@ public class Edge {
     public String getStart() {
         return start;
     }
+
+    public String toString(){
+        return name + " " + start + " " +  end + " " + cost;
+    }
 }
