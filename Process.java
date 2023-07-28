@@ -50,8 +50,12 @@ public class Process {
             if(line[0].equals("---") ){
                 break;
             }
-            // this.graph.put(line[0],new TreeMap<>());
+
             this.graph.addVertex(line[0]);
+            System.out.println(graph);
+
+            // this.graph.put(line[0],new TreeMap<>());
+            // this.graph.addVertex(line[0]);
             // System.out.println(graph);
         }
 
@@ -63,8 +67,15 @@ public class Process {
             }
             
             // EdgeOld edge = new EdgeOld(line[0], line[2], line[3], Integer.parseInt(line[4]));
+            String name = line[0];
+            String firstV = line[2];
+            String secondV = line[3];
+            int value = Integer.parseInt(line[4]); 
 
             // first vertex
+            // int indexFirst = this.graph.getIndex(firstV);
+            // System.out.println(indexFirst);
+            this.graph.addEdge(name, firstV, secondV, value);
             // this.graph.get(edge.getStart()).put(edge.getEnd(), edge);
 
             // second vertex
