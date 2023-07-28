@@ -1,10 +1,10 @@
-public class Edge {
+public class EdgeOld {
 
     private String name;
     private String start, end;
     private int cost;
     
-    public Edge(String name, String start, String end, int cost) {
+    public EdgeOld(String name, String start, String end, int cost) {
         this.name = name;
         this.start = start;
         this.end = end;
