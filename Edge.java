@@ -28,6 +28,6 @@ public class Edge {
     }
 
     public String toString(){
-        return name + " " + start + " " +  end + " " + cost;
+        return name + " " + start + " " +  end + " " + cost + "\n";
     }
 }

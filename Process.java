@@ -6,18 +6,32 @@ import java.util.TreeMap;
 public class Process {
     private String readFile;
     private String writeFile;
-    // private Graph graph = new Graph();
-    // private TreeMap<String, Vertex> graph = new TreeMap<>();
+    
     private TreeMap<String, TreeMap<String, Edge>> graph;
+
+    private TreeMap<String, TreeMap<String, Edge>> treeMin;
+
 
     public Process (String [] args){
         this.readFile = args[0];
         this.writeFile = args[1];
         this.graph = new TreeMap<>();
+        this.treeMin = new TreeMap<>();
     }
 
     public void compute() {
         processDataFile();
+        doPrimJarnik();
+    }
+
+    private void doPrimJarnik() {
+        int [] dist = new int [graph.size()];
+        for (int i : dist) {
+            dist[i] = 1000; // + infiny ?
+        }
+        // TreeMap<String, Edge> v = graph.get(graph.firstKey());
+        String v = graph.firstKey();
+        System.out.println(graph.firstKey());
     }
 
     private void processDataFile() {
