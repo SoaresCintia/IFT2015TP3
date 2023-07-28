@@ -40,14 +40,10 @@ public class Process {
             if(line[0].equals("---") ){
                 break;
             }
-            String streetName = line[0];
-            String originVertice = line[2];
-            String endVertice = line[3];
-            int cost = Integer.parseInt(line[4]);
-            // System.out.println("edge " + originVertice + " " + endVertice + " " + cost);
-            Edge edge = new Edge(streetName, originVertice, endVertice, cost);
+            
+            Edge edge = new Edge(line[0], line[2], line[3], Integer.parseInt(line[4]));
             TreeMap<String, Edge> edges; 
-            Vertex vertex = this.graph.get(originVertice);
+            Vertex vertex = this.graph.get(edge.getStart());
             // vertex.add(edge);
             System.out.println(graph);
 
