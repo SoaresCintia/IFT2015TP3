@@ -1,11 +1,16 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+
+
+
 
 
 
@@ -17,6 +22,10 @@ public class Process {
     
     // private TreeMap<String, TreeMap<String, Edge>> graph;
     // private TreeMap<String, TreeMap<String, Edge>> treeMin;
+
+    private TreeSet<Graph.Vertex> vertices;
+    private PriorityQueue<Graph.Vertex> queue;
+
 
     private Graph graph;
     private Graph treeMin;
@@ -34,23 +43,45 @@ public class Process {
 
     public void compute() {
         processDataFile();
-        doPrimJarnik();
+        Mst();
     }
 
-    private void doPrimJarnik() {
-        int [] dist = new int [graph.size()];
-        for (int i : dist) {
-            dist[i] =  Integer.MAX_VALUE; 
+    private void Mst() {
+        for(Graph.Vertex v: this.graph.getVerticesEdges()){
+            if(!v.isVisited()){
+                primJarnik(v);
+                
+            }
         }
-        Graph.Vertex v = pickRandomVertex(this.graph.getVerticesEdges());
-        int vIndex = graph.getVerticesEdges().indexOf(v);
-        dist[vIndex] = 0;
-        PriorityQueue<Graph.Edge> queue = new PriorityQueue<>();
-        for (int i = 0; i < dist.length; i++) {
-            
+       
+    }
+
+    private void  primJarnik(Graph.Vertex  v){
+        v.setMinDistance(0);
+        queue.add(v);
+        while(!queue.isEmpty()){
+            Graph.Vertex v2 = queue.remove();
+            checkVertex(v2);
         }
-        // String v = graph.firstKey();
-        // System.out.println(graph.firstKey());
+
+    }
+
+    private void checkVertex(Graph.Vertex v){
+        v.setVisited(true);
+        for(Graph.Edge edge : v.getAdjacentEdges()){
+            Graph.Vertex w = edge.getTargetVertex();
+            if(w.isVisited()){
+                continue;
+            }
+            if(edge.getWeight() < w.getMinDistance()){
+                w.setMinDistance(edge.getWeight());
+                w.setMinEdge(edge);
+                if(this.queue.contains(w)){
+                    this.queue.remove(w);
+                }
+                this.queue.add(w);
+            }
+        }
     }
 
     private Graph.Vertex pickRandomVertex(ArrayList<Graph.Vertex> vertices) {
@@ -113,5 +144,15 @@ public class Process {
         e.printStackTrace();
     }
 
+    }
+
+    class pair{
+        int weight;
+        int vertex;
+
+        pair(int weight, int vertex){
+            this.weight = weight;
+            this.vertex = vertex;
+        }
     }
 }

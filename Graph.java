@@ -15,34 +15,71 @@ public class Graph {
     class Edge{
         
         String name;
-        Vertex first, second;
-        int value;
+        Vertex startVertex;        
+        Vertex targetVertex;
+        int weight;
 
-        public Edge(String name, Vertex first, Vertex second, int value) {
+        public Edge(String name, Vertex startVertex, Vertex targVertex, int weight) {
             this.name = name;
-            this.first = first;
-            this.second = second;
-            this.value = value;
+            this.startVertex = startVertex;
+            this.targetVertex = targVertex;
+            this.weight = weight;
         }
+
+        public String getName() {
+            return name;
+        }
+
+        public Vertex getStartVertex() {
+            return startVertex;
+        }
+
+        public Vertex getTargetVertex() {
+            return targetVertex;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setStartVertex(Vertex startVertex) {
+            this.startVertex = startVertex;
+        }
+
+        public void setTargetVertex(Vertex targetVertex) {
+            this.targetVertex = targetVertex;
+        }
+
+        public void setWeight(int weight) {
+            this.weight = weight;
+        }
+
+        
     };
     
-    class Vertex{
-        String v; // optionnel
-        // e(v,w) sortante. s = v
-        // clé – indice de w dans une table des sommets // valeur – poids de e sortante
-        // Exemple: (1,7) = 1 => b; e = (a,b) poids 7 
-        TreeSet<Edge> edges;
-        // TreeMap aretesEntrantes; //optionel
-        public Vertex(String v, TreeSet<Edge> edges) {
-            this.v = v;
-            this.edges = edges;
+    class Vertex implements Comparable<Vertex>{
+
+        String name; // optionnel
+        Edge minEdge;
+        boolean visited;
+        Vertex prevVertex;
+        double minDistance = Double.POSITIVE_INFINITY;
+        TreeSet<Edge> adjacentEdges;
+        
+        public Vertex(String v, TreeSet<Edge> adjacentEdges) {
+            this.name = v;
+            this.adjacentEdges = adjacentEdges;
         }
 
         public void  addEdge(String name,Vertex start, Vertex end, Integer weight){
-            if(edges == null){
-                edges = new TreeSet<Edge>();
+            if(adjacentEdges == null){
+                adjacentEdges = new TreeSet<Edge>();
             }
-            edges.add(new Edge(name,start,end,weight));
+            adjacentEdges.add(new Edge(name,start,end,weight));
         }
 
         @Override
@@ -56,21 +93,68 @@ public class Graph {
 
             Vertex ver = (Vertex) o;
 
-            return this.v == ver.v;
+            return this.name == ver.name;
             
         }
+
+        @Override
+        public int compareTo(Graph.Vertex o) {
+            return Double.compare(minDistance, o.getMinDistance());
+        }
+
+        public double getMinDistance() {
+            return  this.minDistance;
+        }
+
+        public void setAdjacentEdges(TreeSet<Edge> adjacentEdges) {
+            this.adjacentEdges = adjacentEdges;
+        }
+
+        public void setMinDistance(double minDistance) {
+            this.minDistance = minDistance;
+        }
+
+        public void setMinEdge(Edge minEdge) {
+            this.minEdge = minEdge;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setPrevVertex(Vertex prevVertex) {
+            this.prevVertex = prevVertex;
+        }
+
+        public void setVisited(boolean visited) {
+            this.visited = visited;
+        }
+
+        public TreeSet<Edge> getAdjacentEdges() {
+            return adjacentEdges;
+        }
+
+        public Edge getMinEdge() {
+            return minEdge;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Vertex getPrevVertex() {
+            return prevVertex;
+        }
+
+        public boolean isVisited() {
+            return visited;
+
+        }
+        
     };
 
    
     
-    // public void addVertex(String s) {
-
-    //     this.indexes.put(s, curIndex);
-        
-    //     Vertex vertex = new Vertex(s, new TreeMap<>());
-    //     this.vertexs.add(vertex);
-
-    //     curIndex++;
 
     // }
     public void addVertex(String v){
