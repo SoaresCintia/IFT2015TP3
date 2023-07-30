@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -35,13 +38,25 @@ public class Process {
     }
 
     private void doPrimJarnik() {
-        // int [] dist = new int [graph.size()];
-        // for (int i : dist) {
-        //     dist[i] = 1000; // + infiny ?
-        // }
-        // // TreeMap<String, Edge> v = graph.get(graph.firstKey());
+        int [] dist = new int [graph.size()];
+        for (int i : dist) {
+            dist[i] =  Integer.MAX_VALUE; 
+        }
+        Graph.Vertex v = pickRandomVertex(this.graph.getVerticesEdges());
+        int vIndex = graph.getVerticesEdges().indexOf(v);
+        dist[vIndex] = 0;
+        PriorityQueue<Graph.Edge> queue = new PriorityQueue<>();
+        for (int i = 0; i < dist.length; i++) {
+            
+        }
         // String v = graph.firstKey();
         // System.out.println(graph.firstKey());
+    }
+
+    private Graph.Vertex pickRandomVertex(ArrayList<Graph.Vertex> vertices) {
+        Random rand  = new Random();
+        int index = rand.nextInt(vertices.size());
+        return vertices.get(index);
     }
 
     private void processDataFile() {
@@ -68,11 +83,11 @@ public class Process {
             }
             Graph.Vertex startVertex = this.graph.new Vertex(line[2],new TreeSet<Graph.Edge>());
             Graph.Vertex endVertex = this.graph.new Vertex(line[3], null);
-            int indexStart = this.graph.getVertexsEdges().indexOf(startVertex); // getting the vertex from the list of vertexs contained in the class graph
-            int indexEnd = this.graph.getVertexsEdges().indexOf(endVertex); // getting the vertex from the list
+            int indexStart = this.graph.getVerticesEdges().indexOf(startVertex); // getting the vertex from the list of vertices contained in the class graph
+            int indexEnd = this.graph.getVerticesEdges().indexOf(endVertex); // getting the vertex from the list
             if(indexStart >= 0 && indexEnd >= 0){ // checking if the vertex was in the list or not.
-                Graph.Vertex firstVertex = this.graph.getVertexsEdges().get(indexStart); 
-                Graph.Vertex lastVertex = this.graph.getVertexsEdges().get(indexEnd);            
+                Graph.Vertex firstVertex = this.graph.getVerticesEdges().get(indexStart); 
+                Graph.Vertex lastVertex = this.graph.getVerticesEdges().get(indexEnd);            
                 firstVertex.addEdge(line[0],firstVertex,lastVertex, Integer.parseInt(line[4])); // adding the edge of the given vertex
             }
             else{ // if not we add it in the list of vertexs 

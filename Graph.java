@@ -10,7 +10,7 @@ public class Graph {
     // private ArrayList<Vertex> vertexs;
 
     private TreeSet<String> vertexTree = new TreeSet<>();
-    private ArrayList<Vertex> vertexsEdges = new ArrayList<Vertex>();
+    private ArrayList<Vertex> verticesEdges = new ArrayList<Vertex>();
 
     class Edge{
         
@@ -76,7 +76,7 @@ public class Graph {
     public void addVertex(String v){
         this.vertexTree.add(v);
         Vertex vertex = new Vertex(v,new TreeSet<>());
-        this.vertexsEdges.add(vertex);
+        this.verticesEdges.add(vertex);
     }
 
 
@@ -85,8 +85,17 @@ public class Graph {
         // this.vertexs.g
     }
 
-   public ArrayList<Vertex>  getVertexsEdges(){
-        return this.vertexsEdges;
+   public ArrayList<Vertex>  getVerticesEdges(){
+        return this.verticesEdges;
    }
+   public int size(){
+       return this.vertexTree.size();
+   }
+
+   public TreeSet<String> getVertexTree(){
+        return this.vertexTree;
+
+   }
+
         
 }
