@@ -1,13 +1,10 @@
 import java.util.ArrayList;
-import java.util.TreeMap;
-import java.util.TreeSet;
+
 
 public class Graph {
 
-     private int curIndex = 0;
-    // // clé – sommet, valeur – indice de sommet 
-     private TreeMap<String, Integer> indexes;
-    // private ArrayList<Vertex> vertexs;
+
+   
 
     private ArrayList<Vertex> vertices = new ArrayList<>();
     private ArrayList<Edge> edges = new ArrayList<>();

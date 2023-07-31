@@ -22,33 +22,24 @@ public class Process {
     private String readFile;
     private String writeFile;
     
-    // private TreeMap<String, TreeMap<String, Edge>> graph;
-    // private TreeMap<String, TreeMap<String, Edge>> treeMin;
-
-    private TreeSet<Graph.Vertex> vertices;
+  
     private PriorityQueue<Graph.Vertex> queue = new PriorityQueue<Graph.Vertex>();
 
 
     private Graph graph;
-    private Graph treeMin;
 
 
     public Process (String [] args){
         this.readFile = args[0];
         this.writeFile = args[1];
-        // this.graph = new TreeMap<>();
-        // this.treeMin = new TreeMap<>();
-
         this.graph = new Graph();
-        this.treeMin = new Graph();
     }
 
 
-    public void compute() {
-        processDataFile();
-        Mst();
-        System.out.println("done");
-        writeResult();
+    public void compute() { // O(|V|) + O(|E| log |V|) 
+        processDataFile();  // O(|V|) + 0(|E|)
+        Mst(); //O(|E| log |V|)
+        writeResult(); //O(V)
     }
 
     private void Mst() {
@@ -90,18 +81,13 @@ public class Process {
         }
     }
 
-    private Graph.Vertex pickRandomVertex(ArrayList<Graph.Vertex> vertices) {
-        Random rand  = new Random();
-        int index = rand.nextInt(vertices.size());
-        return vertices.get(index);
-    }
 
-    private void processDataFile() {
+    private void processDataFile() { // O(|V|) + 0(|E|)
     try {
         File myObj = new File(this.readFile);
         Scanner myReader = new Scanner(myObj);
 
-        while (myReader.hasNextLine()){// read vertices
+        while (myReader.hasNextLine()){// read vertices O(V)
             String data = myReader.nextLine();
             String [] line = data.split("\\s+");
             if(line[0].equals("---") ){
@@ -111,7 +97,7 @@ public class Process {
             this.graph.addVertex(line[0]);
             // System.out.println(graph);
         }
-        while(myReader.hasNextLine()){// read edges
+        while(myReader.hasNextLine()){// read edges O(|E|)
             String data = myReader.nextLine();
             String [] line = data.split("\\s+");
             if(line[0].equals("---") ){
@@ -121,10 +107,7 @@ public class Process {
             Graph.Vertex endVertex = this.graph.new Vertex(line[3]);
             int indexStart = this.graph.getVertices().indexOf(startVertex); // getting the vertex from the list of vertices contained in the class graph
             int indexEnd = this.graph.getVertices().indexOf(endVertex); // getting the vertex from the list
-            System.out.println(indexStart);
-            System.out.println(indexEnd);
             if(indexStart >= 0 && indexEnd >= 0){ // checking if the vertex was in the list or not.
-                System.out.println("adding an edge to the list");
                 Graph.Vertex firstVertex = this.graph.getVertices().get(indexStart); 
                 Graph.Vertex lastVertex = this.graph.getVertices().get(indexEnd);            
                 graph.addEdge(line[0],firstVertex,lastVertex, Integer.parseInt(line[4].replace(";",""))); // adding the edge of the given vertex
@@ -146,10 +129,9 @@ public class Process {
 
     }
 
-    public void writeResult(){
+    public void writeResult(){ // O(|V|)
         int sum = 0;
-        System.out.println("Starting to write result");
-         for(Graph.Vertex v : this.graph.getVertices()){
+        for(Graph.Vertex v : this.graph.getVertices()){ // O(|V|)
 
                 try {
                 FileWriter myWriter = new FileWriter(writeFile,true);
@@ -163,7 +145,7 @@ public class Process {
             
                 
         }
-        for(Graph.Vertex v : this.graph.getVertices()){
+        for(Graph.Vertex v : this.graph.getVertices()){ //O(|V|)
             if(v.getMinEdge() != null){
                 Graph.Edge edge = v.getMinEdge();
 
