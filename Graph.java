@@ -9,8 +9,8 @@ public class Graph {
      private TreeMap<String, Integer> indexes;
     // private ArrayList<Vertex> vertexs;
 
-    private TreeSet<String> vertexTree = new TreeSet<>();
-    private ArrayList<Vertex> verticesEdges = new ArrayList<Vertex>();
+    private ArrayList<Vertex> vertices = new ArrayList<>();
+    private ArrayList<Edge> edges = new ArrayList<>();
 
     class Edge implements Comparable<Edge> {
         
@@ -74,18 +74,15 @@ public class Graph {
         boolean visited;
         Vertex prevVertex;
         double minDistance = Double.POSITIVE_INFINITY;
-        TreeSet<Edge> adjacentEdges;
+        ArrayList<Edge> adjacentEdges;
         
-        public Vertex(String v, TreeSet<Edge> adjacentEdges) {
+        public Vertex(String v) {
             this.name = v;
-            this.adjacentEdges = adjacentEdges;
+            this.adjacentEdges = new ArrayList<>();
         }
 
-        public void  addEdge(String name,Vertex start, Vertex end, Integer weight){
-            if(adjacentEdges == null){
-                adjacentEdges = new TreeSet<Edge>();
-            }
-            adjacentEdges.add(new Edge(name,start,end,weight));
+        public void  addEdge(Edge e ){
+            this.adjacentEdges.add(e);
         }
 
         @Override
@@ -112,7 +109,7 @@ public class Graph {
             return  this.minDistance;
         }
 
-        public void setAdjacentEdges(TreeSet<Edge> adjacentEdges) {
+        public void setAdjacentEdges(ArrayList<Graph.Edge> adjacentEdges) {
             this.adjacentEdges = adjacentEdges;
         }
 
@@ -136,7 +133,7 @@ public class Graph {
             this.visited = visited;
         }
 
-        public TreeSet<Edge> getAdjacentEdges() {
+        public ArrayList<Graph.Edge> getAdjacentEdges() {
             return adjacentEdges;
         }
 
@@ -163,26 +160,31 @@ public class Graph {
     
 
     public void addVertex(String v){
-        this.vertexTree.add(v);
-        Vertex vertex = new Vertex(v,new TreeSet<>());
-        this.verticesEdges.add(vertex);
+        Vertex vertex = new Vertex(v);
+        this.vertices.add(vertex);
     }
 
 
     public void addEdge(String name, Vertex first, Vertex second, int value ){
+
         Edge edge = new Edge(name, first, second, value);
-        // this.vertexs.g
+        Vertex startV = edge.getStartVertex();
+        Vertex TargetV = edge.getTargetVertex();
+
+        this.vertices.get(this.vertices.indexOf(startV)).addEdge(new Edge(name, startV, TargetV, value));
+        this.vertices.get(this.vertices.indexOf(TargetV)).addEdge(new Edge(name, TargetV, startV, value));
+
     }
 
-   public ArrayList<Vertex>  getVerticesEdges(){
-        return this.verticesEdges;
+   public ArrayList<Edge>  getEdges(){
+        return this.edges;
    }
    public int size(){
-       return this.vertexTree.size();
+       return this.vertices.size();
    }
 
-   public TreeSet<String> getVertexTree(){
-        return this.vertexTree;
+   public ArrayList<Graph.Vertex> getVertices(){
+        return this.vertices;
 
    }
 

@@ -57,7 +57,7 @@ public class Process {
     }
 
     private void Mst() {
-        for(Graph.Vertex v: this.graph.getVerticesEdges()){
+        for(Graph.Vertex v: this.graph.getVertices()){
             if(!v.isVisited()){
                 primJarnik(v);
                 
@@ -122,17 +122,17 @@ public class Process {
             if(line[0].equals("---") ){
                 break;
             }
-            Graph.Vertex startVertex = this.graph.new Vertex(line[2],new TreeSet<Graph.Edge>());
-            Graph.Vertex endVertex = this.graph.new Vertex(line[3], null);
-            int indexStart = this.graph.getVerticesEdges().indexOf(startVertex); // getting the vertex from the list of vertices contained in the class graph
-            int indexEnd = this.graph.getVerticesEdges().indexOf(endVertex); // getting the vertex from the list
+            Graph.Vertex startVertex = this.graph.new Vertex(line[2]);
+            Graph.Vertex endVertex = this.graph.new Vertex(line[3]);
+            int indexStart = this.graph.getVertices().indexOf(startVertex); // getting the vertex from the list of vertices contained in the class graph
+            int indexEnd = this.graph.getVertices().indexOf(endVertex); // getting the vertex from the list
             System.out.println(indexStart);
             System.out.println(indexEnd);
             if(indexStart >= 0 && indexEnd >= 0){ // checking if the vertex was in the list or not.
                 System.out.println("adding an edge to the list");
-                Graph.Vertex firstVertex = this.graph.getVerticesEdges().get(indexStart); 
-                Graph.Vertex lastVertex = this.graph.getVerticesEdges().get(indexEnd);            
-                firstVertex.addEdge(line[0],firstVertex,lastVertex, Integer.parseInt(line[4].replace(";",""))); // adding the edge of the given vertex
+                Graph.Vertex firstVertex = this.graph.getVertices().get(indexStart); 
+                Graph.Vertex lastVertex = this.graph.getVertices().get(indexEnd);            
+                graph.addEdge(line[0],firstVertex,lastVertex, Integer.parseInt(line[4].replace(";",""))); // adding the edge of the given vertex
             }
             else{ // if not we add it in the list of vertexs 
                 this.graph.addVertex(line[2]);
@@ -154,7 +154,7 @@ public class Process {
     public void writeResult(){
         int sum = 0;
         System.out.println("Starting to write result");
-        for(Graph.Vertex v : this.graph.getVerticesEdges()){
+        for(Graph.Vertex v : this.graph.getVertices()){
             if(v.getMinEdge() != null){
                 Graph.Edge edge = v.getMinEdge();
 
