@@ -1,3 +1,11 @@
+a
+b
+c
+d
+e
+f
+g
+h
 rue3 c b 4
 rue1 a c 5
 rue4 c d 2

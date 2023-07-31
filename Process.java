@@ -154,6 +154,20 @@ public class Process {
     public void writeResult(){
         int sum = 0;
         System.out.println("Starting to write result");
+         for(Graph.Vertex v : this.graph.getVertices()){
+
+                try {
+                FileWriter myWriter = new FileWriter(writeFile,true);
+                myWriter.write(v.getName() + "\n");
+                myWriter.close();
+                } 
+                catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            
+                
+        }
         for(Graph.Vertex v : this.graph.getVertices()){
             if(v.getMinEdge() != null){
                 Graph.Edge edge = v.getMinEdge();
@@ -162,7 +176,6 @@ public class Process {
                 FileWriter myWriter = new FileWriter(writeFile,true);
                 sum += edge.getWeight();
                 myWriter.write(edge.getName() + " " + edge.getStartVertex().getName() + " " + edge.getTargetVertex().getName()+ " " + edge.getWeight() + "\n");
-                System.out.println("in");
                 myWriter.close();
                 } 
                 catch (IOException e) {
@@ -177,7 +190,6 @@ public class Process {
         try {
         FileWriter myWriter = new FileWriter(writeFile,true);
         myWriter.write("---"+ "\n" + sum);
-        System.out.println("in");
         myWriter.close();
         } 
         catch (IOException e) {
