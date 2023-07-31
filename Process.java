@@ -1,12 +1,14 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.TreeMap;
 import java.util.TreeSet;
+
+
 
 
 
@@ -24,7 +26,7 @@ public class Process {
     // private TreeMap<String, TreeMap<String, Edge>> treeMin;
 
     private TreeSet<Graph.Vertex> vertices;
-    private PriorityQueue<Graph.Vertex> queue;
+    private PriorityQueue<Graph.Vertex> queue = new PriorityQueue<Graph.Vertex>();
 
 
     private Graph graph;
@@ -41,9 +43,17 @@ public class Process {
         this.treeMin = new Graph();
     }
 
+    public Process(){
+        this.graph = new Graph();
+        this.treeMin = new Graph();
+        
+    }
+
     public void compute() {
         processDataFile();
         Mst();
+        System.out.println("done");
+        writeResult();
     }
 
     private void Mst() {
@@ -69,6 +79,7 @@ public class Process {
     private void checkVertex(Graph.Vertex v){
         v.setVisited(true);
         for(Graph.Edge edge : v.getAdjacentEdges()){
+            
             Graph.Vertex w = edge.getTargetVertex();
             if(w.isVisited()){
                 continue;
@@ -105,7 +116,6 @@ public class Process {
             this.graph.addVertex(line[0]);
             // System.out.println(graph);
         }
-
         while(myReader.hasNextLine()){// read edges
             String data = myReader.nextLine();
             String [] line = data.split("\\s+");
@@ -116,24 +126,19 @@ public class Process {
             Graph.Vertex endVertex = this.graph.new Vertex(line[3], null);
             int indexStart = this.graph.getVerticesEdges().indexOf(startVertex); // getting the vertex from the list of vertices contained in the class graph
             int indexEnd = this.graph.getVerticesEdges().indexOf(endVertex); // getting the vertex from the list
+            System.out.println(indexStart);
+            System.out.println(indexEnd);
             if(indexStart >= 0 && indexEnd >= 0){ // checking if the vertex was in the list or not.
+                System.out.println("adding an edge to the list");
                 Graph.Vertex firstVertex = this.graph.getVerticesEdges().get(indexStart); 
                 Graph.Vertex lastVertex = this.graph.getVerticesEdges().get(indexEnd);            
-                firstVertex.addEdge(line[0],firstVertex,lastVertex, Integer.parseInt(line[4])); // adding the edge of the given vertex
+                firstVertex.addEdge(line[0],firstVertex,lastVertex, Integer.parseInt(line[4].replace(";",""))); // adding the edge of the given vertex
             }
             else{ // if not we add it in the list of vertexs 
                 this.graph.addVertex(line[2]);
             }
                 
                      
-            // EdgeOld edge = new EdgeOld(line[0], line[2], line[3], Integer.parseInt(line[4]));
-
-            // first vertex
-            // this.graph.get(edge.getStart()).put(edge.getEnd(), edge);
-
-            // second vertex
-            // this.graph.get(edge.getEnd()).put(edge.getStart(), edge);
-            // System.out.println(graph);
 
         }
 
@@ -146,13 +151,52 @@ public class Process {
 
     }
 
-    class pair{
-        int weight;
-        int vertex;
+    public void writeResult(){
+        int sum = 0;
+        System.out.println("Starting to write result");
+        for(Graph.Vertex v : this.graph.getVerticesEdges()){
+            if(v.getMinEdge() != null){
+                Graph.Edge edge = v.getMinEdge();
 
-        pair(int weight, int vertex){
-            this.weight = weight;
-            this.vertex = vertex;
+                try {
+                FileWriter myWriter = new FileWriter(writeFile,true);
+                sum += edge.getWeight();
+                myWriter.write(edge.getName() + " " + edge.getStartVertex().getName() + " " + edge.getTargetVertex().getName()+ " " + edge.getWeight() + "\n");
+                System.out.println("in");
+                myWriter.close();
+                } 
+                catch (IOException e) {
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
+            }
+                
         }
+
+
+        try {
+        FileWriter myWriter = new FileWriter(writeFile,true);
+        myWriter.write("---"+ "\n" + sum);
+        System.out.println("in");
+        myWriter.close();
+        } 
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
     }
+
+    public void setReadFile(String fileName){
+        this.readFile = fileName;
+    }
+
+    public void setWriteFile(String fileName){
+        this.writeFile = fileName;
+    }
+
+       
 }
+
+    
+

@@ -1,0 +1,9 @@
+rue2 a b 7
+rue1 a c 5
+rue4 c d 2
+rue0 a e 9
+rue7 d f 3
+rue8 e g 3
+rue9 d h 7
+---
+36

@@ -12,7 +12,7 @@ public class Graph {
     private TreeSet<String> vertexTree = new TreeSet<>();
     private ArrayList<Vertex> verticesEdges = new ArrayList<Vertex>();
 
-    class Edge{
+    class Edge implements Comparable<Edge> {
         
         String name;
         Vertex startVertex;        
@@ -58,6 +58,12 @@ public class Graph {
             this.weight = weight;
         }
 
+        @Override
+        public int compareTo(Edge o) {
+            return Integer.compare(this.weight, o.getWeight());
+           
+        }
+
         
     };
     
@@ -93,7 +99,7 @@ public class Graph {
 
             Vertex ver = (Vertex) o;
 
-            return this.name == ver.name;
+            return this.name.equals(ver.getName());
             
         }
 
@@ -151,12 +157,11 @@ public class Graph {
 
         }
         
-    };
+    }
 
    
     
 
-    // }
     public void addVertex(String v){
         this.vertexTree.add(v);
         Vertex vertex = new Vertex(v,new TreeSet<>());
