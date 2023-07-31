@@ -8,10 +8,7 @@
 
 public class Tp3 {
     public static void main(String[] args) {
-        Process process = new Process();
-        System.out.println("start");
-        process.setReadFile("testsTP3E19/carte0.txt");
-        process.setWriteFile("out.txt");
+        Process process = new Process(args);
         process.compute();
         
     }

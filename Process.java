@@ -43,11 +43,6 @@ public class Process {
         this.treeMin = new Graph();
     }
 
-    public Process(){
-        this.graph = new Graph();
-        this.treeMin = new Graph();
-        
-    }
 
     public void compute() {
         processDataFile();
@@ -175,7 +170,7 @@ public class Process {
                 try {
                 FileWriter myWriter = new FileWriter(writeFile,true);
                 sum += edge.getWeight();
-                myWriter.write(edge.getName() + " " + edge.getStartVertex().getName() + " " + edge.getTargetVertex().getName()+ " " + edge.getWeight() + "\n");
+                myWriter.write(edge.getName() + "\t" + edge.getStartVertex().getName() + "\t" + edge.getTargetVertex().getName()+ "\t" + edge.getWeight() + "\n");
                 myWriter.close();
                 } 
                 catch (IOException e) {
@@ -197,14 +192,6 @@ public class Process {
             e.printStackTrace();
         }
 
-    }
-
-    public void setReadFile(String fileName){
-        this.readFile = fileName;
-    }
-
-    public void setWriteFile(String fileName){
-        this.writeFile = fileName;
     }
 
        
